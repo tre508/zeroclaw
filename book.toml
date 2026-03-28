@@ -1,0 +1,16 @@
+[book]
+title = "ZeroClaw Documentation"
+description = "Documentation for ZeroClaw — Personal AI Assistant"
+authors = ["ZeroClaw Labs"]
+language = "en"
+src = "docs"
+
+[build]
+build-dir = "book"
+
+[output.html]
+default-theme = "navy"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/zeroclaw-labs/zeroclaw"
+edit-url-template = "https://github.com/zeroclaw-labs/zeroclaw/edit/master/docs/{path}"
+site-url = "/zeroclaw/"
