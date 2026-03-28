@@ -25,6 +25,33 @@ Schema export command:
 | `default_provider` | `openrouter` | provider ID or alias |
 | `default_model` | `anthropic/claude-sonnet-4-6` | model routed through selected provider |
 | `default_temperature` | `0.7` | model temperature |
+| `provider_timeout_secs` | `120` | HTTP request timeout for LLM API calls (increase for slow backends like llama.cpp on constrained hardware) |
+| `provider_max_tokens` | unset | Maximum output tokens in LLM requests. Overrides per-provider defaults. Important for OpenRouter where the platform default (65536) can cause 402 errors |
+
+## `[extra_headers]`
+
+Extra HTTP headers included in all LLM provider API requests.
+
+Some providers require specific headers (e.g., `User-Agent`, `HTTP-Referer`, `X-Title`) for request routing or policy enforcement. Headers defined here augment (and override) the program's default headers.
+
+Can also be set via `ZEROCLAW_EXTRA_HEADERS` environment variable using the format `Key:Value,Key2:Value2`. Env var headers override config file headers.
+
+```toml
+[extra_headers]
+User-Agent = "MyApp/1.0"
+X-Title = "zeroclaw"
+HTTP-Referer = "https://github.com/zeroclaw-labs/zeroclaw"
+```
+
+## `[provider_env]`
+
+Provider-specific environment variables injected at daemon startup. Use this to store API keys for secondary providers without relying on shell environment or wrapper scripts.
+
+```toml
+[provider_env]
+MODELSTUDIO_API_KEY = "sk-sp-..."
+DASHSCOPE_API_KEY = "sk-..."
+```
 
 ## `[observability]`
 

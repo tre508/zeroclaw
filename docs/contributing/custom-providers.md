@@ -174,6 +174,41 @@ curl -sS https://your-api.com/models \
 
 - If the gateway does not implement `/models`, send a minimal chat request and inspect the provider's returned model error text.
 
+### Streaming Required (`"Stream must be set to true"`)
+
+Some OpenAI-compatible APIs reject requests where `stream` is not `true`.
+ZeroClaw sends `stream: false` for non-streaming calls by default, which
+causes these endpoints to return an error such as:
+
+```
+Error: Stream must be set to true
+```
+
+**Workaround using `extra_headers`:** If the upstream gateway accepts a
+header-based streaming override (for example, `X-Force-Stream: true`),
+you can set it via `[extra_headers]` in `config.toml`:
+
+```toml
+[extra_headers]
+X-Force-Stream = "true"
+```
+
+However, most providers that require `stream=true` enforce it at the
+request-body level, not via headers. ZeroClaw does not currently expose a
+`provider_extra_body` config table to inject arbitrary fields into the
+JSON request body. If your provider strictly requires `stream=true` in
+the request body and does not offer a header-based override, the
+recommended paths are:
+
+1. **Use a proxy** that rewrites `stream: false` to `stream: true` in
+   the request body before forwarding to the upstream API, and buffers
+   the SSE response into a single JSON response for ZeroClaw.
+2. **Open a feature request** for native `provider_extra_body` support
+   (reference issue #4646).
+3. **Use the streaming code path** by interacting through a channel
+   (Telegram, Discord, etc.) or the gateway, which uses ZeroClaw's
+   streaming provider path (`stream_chat`) where `stream=true` is sent.
+
 ### Connection Issues
 
 - Test endpoint accessibility: `curl -I https://your-api.com`

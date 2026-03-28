@@ -140,6 +140,26 @@ which zeroclaw
 
 Persist in your shell profile if needed.
 
+## Provider Issues
+
+### Custom provider rejects `stream: false`
+
+Symptom:
+
+- Error message from provider: `"Stream must be set to true"` or similar
+
+Why this happens:
+
+- Some OpenAI-compatible APIs (certain proxies, self-hosted gateways) require `stream=true` on every request. ZeroClaw sends `stream: false` for non-streaming calls (CLI single-message mode, tool-call inference).
+
+Workarounds:
+
+1. Use ZeroClaw's streaming code path: interact via a channel (Telegram, Discord, etc.) or the gateway, which uses the `stream_chat` provider path with `stream=true`.
+2. Place a reverse proxy in front of the upstream API that rewrites the request body to set `stream: true` and buffers the SSE response.
+3. Check if the provider offers a header-based override and use `[extra_headers]` in `config.toml`.
+
+See [Custom Provider Configuration](/docs/contributing/custom-providers.md) for full details.
+
 ## Runtime / Gateway
 
 ### Gateway unreachable
