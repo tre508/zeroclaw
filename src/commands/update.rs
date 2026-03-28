@@ -156,7 +156,7 @@ pub async fn run(target_version: Option<&str>) -> Result<()> {
 }
 
 fn find_asset_url(release: &serde_json::Value) -> Option<String> {
-    let target = current_target_triple();
+    let target = effective_target_triple();
 
     release["assets"]
         .as_array()?
@@ -166,7 +166,7 @@ fn find_asset_url(release: &serde_json::Value) -> Option<String> {
                 .as_str()
                 .map(|name| {
                     name.starts_with("zeroclaw-")
-                        && name.contains(target)
+                        && name.contains(target.as_str())
                         && (name.ends_with(".tar.gz") || name.ends_with(".zip"))
                 })
                 .unwrap_or(false)
@@ -188,6 +188,46 @@ fn find_sha256sums_url(release: &serde_json::Value) -> Option<String> {
             None
         }
     })
+}
+
+/// Detect the Linux hardware architecture at runtime by running `uname -m`.
+///
+/// This handles the case where the running binary was compiled for one architecture
+/// (e.g. x86_64) but is executing on a different hardware platform (e.g. aarch64)
+/// via QEMU emulation or similar.
+///
+/// Returns `None` on non-Linux platforms, if `uname` is unavailable, or if the
+/// architecture string is not recognised.
+fn runtime_linux_arch() -> Option<&'static str> {
+    #[cfg(not(target_os = "linux"))]
+    return None;
+
+    #[cfg(target_os = "linux")]
+    {
+        let output = std::process::Command::new("uname").arg("-m").output().ok()?;
+        let arch = std::str::from_utf8(&output.stdout).ok()?.trim();
+        match arch {
+            "x86_64" => Some("x86_64"),
+            "aarch64" | "arm64" => Some("aarch64"),
+            _ => None,
+        }
+    }
+}
+
+/// Return the target triple that should be used for release asset matching.
+///
+/// On Linux, prefers runtime architecture detection over the compile-time target
+/// to correctly handle cross-arch scenarios (e.g. x86_64 binary on aarch64 host).
+fn effective_target_triple() -> String {
+    #[cfg(target_os = "linux")]
+    if let Some(runtime_arch) = runtime_linux_arch() {
+        return match runtime_arch {
+            "x86_64" => "x86_64-unknown-linux-gnu".to_string(),
+            "aarch64" => "aarch64-unknown-linux-gnu".to_string(),
+            _ => current_target_triple().to_string(),
+        };
+    }
+    current_target_triple().to_string()
 }
 
 /// Return the exact Rust target triple for the current platform.
@@ -464,6 +504,14 @@ fn detect_arch_from_header(header: &[u8]) -> Option<&'static str> {
 
 /// Return the host CPU architecture as a human-readable string.
 fn host_architecture() -> Option<&'static str> {
+    // On Linux, prefer runtime detection to correctly identify the hardware arch
+    // when the binary may have been compiled for a different architecture.
+    #[cfg(target_os = "linux")]
+    if let Some(arch) = runtime_linux_arch() {
+        return Some(arch);
+    }
+
+    // Compile-time fallback for non-Linux or when uname is unavailable.
     if cfg!(target_arch = "x86_64") {
         Some("x86_64")
     } else if cfg!(target_arch = "aarch64") {
@@ -603,6 +651,21 @@ mod tests {
     fn current_target_triple_is_not_empty() {
         let triple = current_target_triple();
         assert_ne!(triple, "unknown", "unsupported platform");
+        // The triple must contain at least two hyphens (arch-vendor-os or arch-vendor-os-env)
+        assert!(
+            triple.matches('-').count() >= 2,
+            "triple should have at least two hyphens: {triple}"
+        );
+    }
+
+    #[test]
+    fn effective_target_triple_is_not_empty() {
+        let triple = effective_target_triple();
+        assert!(!triple.is_empty(), "triple should not be empty");
+        assert_ne!(
+            triple, "unknown",
+            "unsupported platform or runtime detection failed"
+        );
         // The triple must contain at least two hyphens (arch-vendor-os or arch-vendor-os-env)
         assert!(
             triple.matches('-').count() >= 2,
