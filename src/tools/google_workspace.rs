@@ -13,6 +13,16 @@ const MAX_OUTPUT_BYTES: usize = 1_048_576;
 
 use crate::config::DEFAULT_GWS_SERVICES;
 
+/// Services whose `gws` CLI shape uses a sub-resource segment:
+/// `gws <service> <resource> <sub_resource> <method>`.
+///
+/// All other services use the 3-segment shape:
+/// `gws <service> <resource> <method>`.
+///
+/// When the caller provides `sub_resource` for a service **not** in this list
+/// we return a helpful error instead of forwarding the malformed command to `gws`.
+const SERVICES_WITH_SUB_RESOURCES: &[&str] = &["gmail"];
+
 /// Google Workspace CLI (`gws`) integration tool.
 ///
 /// Wraps the `gws` CLI binary to give the agent structured access to
@@ -143,19 +153,19 @@ impl Tool for GoogleWorkspaceTool {
             "properties": {
                 "service": {
                     "type": "string",
-                    "description": "Google Workspace service (e.g. drive, gmail, calendar, sheets, docs, slides, tasks, people, chat, classroom, forms, keep, meet, events)"
+                    "description": "Google Workspace service (e.g. drive, gmail, calendar, sheets, docs, slides, tasks, people, chat, classroom, forms, keep, meet)"
                 },
                 "resource": {
                     "type": "string",
-                    "description": "Service resource (e.g. files, messages, events, spreadsheets)"
+                    "description": "Top-level resource for the service. Examples: drive\u{2192}files, gmail\u{2192}users, calendar\u{2192}events, sheets\u{2192}spreadsheets, docs\u{2192}documents, tasks\u{2192}tasklists, people\u{2192}connections"
                 },
                 "method": {
                     "type": "string",
-                    "description": "Method to call on the resource (e.g. list, get, create, update, delete)"
+                    "description": "Method to call on the resource (e.g. list, get, create, update, delete, patch, send)"
                 },
                 "sub_resource": {
                     "type": "string",
-                    "description": "Optional sub-resource for nested operations"
+                    "description": "Sub-resource for nested operations. Only used by Gmail (e.g. messages, drafts, labels, settings under the users resource). Most services like calendar, drive, sheets, docs do NOT use sub_resource \u{2014} omit it for those."
                 },
                 "params": {
                     "type": "object",
@@ -228,6 +238,22 @@ impl Tool for GoogleWorkspaceTool {
         } else {
             None
         };
+
+        // Reject sub_resource for services that only use the 3-segment shape.
+        // The LLM often incorrectly includes sub_resource for services like
+        // calendar or drive, causing gws to error on the extra positional arg.
+        if sub_resource.is_some() && !SERVICES_WITH_SUB_RESOURCES.contains(&service) {
+            return Ok(ToolResult {
+                success: false,
+                output: String::new(),
+                error: Some(format!(
+                    "The '{service}' service does not use sub_resource. \
+                     Use the 3-argument form: service={service}, resource=<resource>, method=<method>. \
+                     Only these services support sub_resource: {}",
+                    SERVICES_WITH_SUB_RESOURCES.join(", ")
+                )),
+            });
+        }
 
         // Security checks
         if self.security.is_rate_limited() {
@@ -1019,6 +1045,78 @@ mod tests {
         // After construction, stored values are trimmed and plain equality works.
         assert!(tool.is_operation_allowed("gmail", "users", Some("drafts"), "create"));
         assert!(!tool.is_operation_allowed("gmail", "users", Some(" drafts "), "create"));
+    }
+
+    // ── sub_resource guard for non-Gmail services ────────────
+
+    #[tokio::test]
+    async fn rejects_sub_resource_for_calendar() {
+        let tool =
+            GoogleWorkspaceTool::new(test_security(), vec![], vec![], None, None, 60, 30, false);
+        let result = tool
+            .execute(json!({
+                "service": "calendar",
+                "resource": "events",
+                "sub_resource": "instances",
+                "method": "list"
+            }))
+            .await
+            .expect("calendar + sub_resource should return a result");
+
+        assert!(!result.success);
+        let err = result.error.as_deref().unwrap_or("");
+        assert!(
+            err.contains("does not use sub_resource"),
+            "expected sub_resource rejection, got: {err}"
+        );
+    }
+
+    #[tokio::test]
+    async fn rejects_sub_resource_for_drive() {
+        let tool =
+            GoogleWorkspaceTool::new(test_security(), vec![], vec![], None, None, 60, 30, false);
+        let result = tool
+            .execute(json!({
+                "service": "drive",
+                "resource": "files",
+                "sub_resource": "permissions",
+                "method": "list"
+            }))
+            .await
+            .expect("drive + sub_resource should return a result");
+
+        assert!(!result.success);
+        let err = result.error.as_deref().unwrap_or("");
+        assert!(
+            err.contains("does not use sub_resource"),
+            "expected sub_resource rejection, got: {err}"
+        );
+    }
+
+    #[tokio::test]
+    async fn allows_sub_resource_for_gmail() {
+        // Gmail is the one service that uses sub_resource. If gws is not
+        // installed the call will fail at spawn, but it must NOT fail at
+        // the sub_resource validation gate.
+        let tool =
+            GoogleWorkspaceTool::new(test_security(), vec![], vec![], None, None, 60, 30, false);
+        let result = tool
+            .execute(json!({
+                "service": "gmail",
+                "resource": "users",
+                "sub_resource": "messages",
+                "method": "list"
+            }))
+            .await
+            .expect("gmail + sub_resource should return a result");
+
+        // The error (if any) should NOT be the sub_resource rejection.
+        // It might be a gws-not-found or timeout error — that's fine.
+        let err = result.error.as_deref().unwrap_or("");
+        assert!(
+            !err.contains("does not use sub_resource"),
+            "gmail sub_resource should be allowed, got: {err}"
+        );
     }
 
     // ── page_limit / page_all flag building ─────────────────
