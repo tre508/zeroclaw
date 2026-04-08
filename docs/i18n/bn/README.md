@@ -653,7 +653,7 @@ curl -LsSf https://raw.githubusercontent.com/zeroclaw-labs/zeroclaw/master/insta
 
 ## Icy Crab 🦀
 
-ZeroClaw smooth crab 🦀 এর জন্য তৈরি হয়েছিল, একটি দ্রুত এবং দক্ষ AI সহকারী। Argenis De La Rosa এবং সম্প্রদায় দ্বারা নির্মিত।
+ZeroClaw icy crab 🦀 এর জন্য তৈরি হয়েছিল, একটি দ্রুত এবং দক্ষ AI সহকারী। Argenis De La Rosa এবং সম্প্রদায় দ্বারা নির্মিত।
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

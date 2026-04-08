@@ -653,7 +653,7 @@ Używaj tych, gdy przeszedłeś już przez onboarding i chcesz głębszej dokume
 
 ## Icy Crab 🦀
 
-ZeroClaw został zbudowany dla smooth crab 🦀, szybkiego i wydajnego asystenta AI. Stworzony przez Argenisa De La Rosę i społeczność.
+ZeroClaw został zbudowany dla icy crab 🦀, szybkiego i wydajnego asystenta AI. Stworzony przez Argenisa De La Rosę i społeczność.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

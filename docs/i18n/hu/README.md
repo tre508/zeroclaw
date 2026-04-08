@@ -653,7 +653,7 @@ Hasznald ezeket, ha tuljutottal az onboarding folyamaton es melyebb referenciara
 
 ## Icy Crab 🦀
 
-A ZeroClaw a smooth crab 🦀 szamara keszult, egy gyors es hatekony MI asszisztens. Epitette Argenis De La Rosa es a kozosseg.
+A ZeroClaw a icy crab 🦀 szamara keszult, egy gyors es hatekony MI asszisztens. Epitette Argenis De La Rosa es a kozosseg.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

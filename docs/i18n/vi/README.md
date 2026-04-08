@@ -653,7 +653,7 @@ Dùng khi bạn đã hoàn thành onboarding và muốn tham khảo sâu hơn.
 
 ## Icy Crab 🦀
 
-ZeroClaw được xây dựng cho smooth crab 🦀, một trợ lý AI nhanh và hiệu quả. Được xây dựng bởi Argenis De La Rosa và cộng đồng.
+ZeroClaw được xây dựng cho icy crab 🦀, một trợ lý AI nhanh và hiệu quả. Được xây dựng bởi Argenis De La Rosa và cộng đồng.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

@@ -653,7 +653,7 @@ curl -LsSf https://raw.githubusercontent.com/zeroclaw-labs/zeroclaw/master/insta
 
 ## Icy Crab 🦀
 
-Το ZeroClaw δημιουργήθηκε για τον smooth crab 🦀, έναν γρήγορο και αποδοτικό βοηθό AI. Δημιουργήθηκε από τον Argenis De La Rosa και την κοινότητα.
+Το ZeroClaw δημιουργήθηκε για τον icy crab 🦀, έναν γρήγορο και αποδοτικό βοηθό AI. Δημιουργήθηκε από τον Argenis De La Rosa και την κοινότητα.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

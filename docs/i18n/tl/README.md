@@ -653,7 +653,7 @@ Gamitin ang mga ito kapag tapos ka na sa onboarding flow at gusto mo ng mas mala
 
 ## Icy Crab 🦀
 
-Ang ZeroClaw ay binuo para sa smooth crab 🦀, isang mabilis at mahusay na AI assistant. Binuo ni Argenis De La Rosa at ng komunidad.
+Ang ZeroClaw ay binuo para sa icy crab 🦀, isang mabilis at mahusay na AI assistant. Binuo ni Argenis De La Rosa at ng komunidad.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

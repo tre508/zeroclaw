@@ -650,7 +650,7 @@ Use these when you're past the onboarding flow and want the deeper reference.
 
 ## Icy Crab 🦀
 
-ZeroClaw was built for the smooth crab 🦀, a fast and efficient AI assistant. Built by Argenis De La Rosa and the community.
+ZeroClaw was built for the icy crab 🦀, a fast and efficient AI assistant. Built by Argenis De La Rosa and the community.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

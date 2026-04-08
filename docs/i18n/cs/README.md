@@ -653,7 +653,7 @@ Používejte tyto, když jste prošli onboardingem a chcete hlubší referenci.
 
 ## Icy Crab 🦀
 
-ZeroClaw byl vytvořen pro smooth crab 🦀, rychlého a efektivního AI asistenta. Vytvořil Argenis De La Rosa a komunita.
+ZeroClaw byl vytvořen pro icy crab 🦀, rychlého a efektivního AI asistenta. Vytvořil Argenis De La Rosa a komunita.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

@@ -653,7 +653,7 @@ Usa queste risorse quando hai superato il flusso di onboarding e vuoi il riferim
 
 ## Icy Crab 🦀
 
-ZeroClaw è stato costruito per il granchio liscio 🦀, un assistente IA veloce ed efficiente. Costruito da Argenis De La Rosa e la comunità.
+ZeroClaw è stato costruito per the icy crab 🦀, un assistente IA veloce ed efficiente. Costruito da Argenis De La Rosa e la comunità.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

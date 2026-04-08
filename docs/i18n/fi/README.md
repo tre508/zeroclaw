@@ -653,7 +653,7 @@ Kayta naita, kun olet ohittanut onboarding-kulun ja haluat syvemman viitteen.
 
 ## Icy Crab 🦀
 
-ZeroClaw rakennettiin smooth crab 🦀 -kaveria varten, nopea ja tehokas tekoalyavustaja. Rakennettu Argenis De La Rosan ja yhteison toimesta.
+ZeroClaw rakennettiin icy crab 🦀 -kaveria varten, nopea ja tehokas tekoalyavustaja. Rakennettu Argenis De La Rosan ja yhteison toimesta.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

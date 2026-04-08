@@ -653,7 +653,7 @@ Folosește-le când ai trecut de fluxul de onboarding și vrei referința mai de
 
 ## Icy Crab 🦀
 
-ZeroClaw a fost construit pentru smooth crab 🦀, un asistent AI rapid și eficient. Construit de Argenis De La Rosa și comunitate.
+ZeroClaw a fost construit pentru icy crab 🦀, un asistent AI rapid și eficient. Construit de Argenis De La Rosa și comunitate.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

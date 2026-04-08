@@ -653,7 +653,7 @@ Use estes recursos quando tiver passado pelo fluxo de onboarding e quiser a refe
 
 ## Icy Crab 🦀
 
-O ZeroClaw foi construído para o caranguejo suave 🦀, um assistente de IA rápido e eficiente. Construído por Argenis De La Rosa e a comunidade.
+O ZeroClaw foi construído para the icy crab 🦀, um assistente de IA rápido e eficiente. Construído por Argenis De La Rosa e a comunidade.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

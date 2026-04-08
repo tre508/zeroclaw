@@ -653,7 +653,7 @@ curl -LsSf https://raw.githubusercontent.com/zeroclaw-labs/zeroclaw/master/insta
 
 ## Icy Crab 🦀
 
-ZeroClaw נבנה עבור ה-smooth crab 🦀, עוזר AI מהיר ויעיל. נבנה על ידי Argenis De La Rosa והקהילה.
+ZeroClaw נבנה עבור ה-icy crab 🦀, עוזר AI מהיר ויעיל. נבנה על ידי Argenis De La Rosa והקהילה.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

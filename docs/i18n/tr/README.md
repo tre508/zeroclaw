@@ -653,7 +653,7 @@ Onboarding akışını geçtikten sonra daha derin referans istediğinizde bunla
 
 ## Icy Crab 🦀
 
-ZeroClaw, smooth crab 🦀 için inşa edildi — hızlı ve verimli bir AI asistanı. Argenis De La Rosa ve topluluk tarafından geliştirildi.
+ZeroClaw, icy crab 🦀 için inşa edildi — hızlı ve verimli bir AI asistanı. Argenis De La Rosa ve topluluk tarafından geliştirildi.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

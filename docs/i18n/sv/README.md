@@ -653,7 +653,7 @@ Använd dessa när du är förbi onboarding-flödet och vill ha den djupare refe
 
 ## Icy Crab 🦀
 
-ZeroClaw byggdes för smooth crab 🦀, en snabb och effektiv AI-assistent. Byggd av Argenis De La Rosa och gemenskapen.
+ZeroClaw byggdes för icy crab 🦀, en snabb och effektiv AI-assistent. Byggd av Argenis De La Rosa och gemenskapen.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

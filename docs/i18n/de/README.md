@@ -653,7 +653,7 @@ Verwende diese Ressourcen, wenn du den Onboarding-Prozess abgeschlossen hast und
 
 ## Icy Crab 🦀
 
-ZeroClaw wurde für den glatten Krebs 🦀 gebaut, einen schnellen und effizienten KI-Assistenten. Entwickelt von Argenis De La Rosa und der Community.
+ZeroClaw wurde für the icy crab 🦀 gebaut, einen schnellen und effizienten KI-Assistenten. Entwickelt von Argenis De La Rosa und der Community.
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)

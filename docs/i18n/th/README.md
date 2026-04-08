@@ -653,7 +653,7 @@ Release assets เผยแพร่สำหรับ:
 
 ## Icy Crab 🦀
 
-ZeroClaw ถูกสร้างสำหรับ smooth crab 🦀 ผู้ช่วย AI ที่เร็วและมีประสิทธิภาพ สร้างโดย Argenis De La Rosa และชุมชน
+ZeroClaw ถูกสร้างสำหรับ icy crab 🦀 ผู้ช่วย AI ที่เร็วและมีประสิทธิภาพ สร้างโดย Argenis De La Rosa และชุมชน
 
 - [zeroclawlabs.ai](https://zeroclawlabs.ai)
 - [@zeroclawlabs](https://x.com/zeroclawlabs)
