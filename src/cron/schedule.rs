@@ -165,7 +165,7 @@ fn normalize_weekday_field(field: &str) -> Result<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::{Datelike, TimeZone};
+    use chrono::{Datelike, Offset, TimeZone};
 
     #[test]
     fn next_run_for_schedule_supports_every_and_at() {
