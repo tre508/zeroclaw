@@ -1283,11 +1283,19 @@ impl SecurityPolicy {
             };
 
             // Cover inline forms like `cat</etc/passwd`.
+            // Safe redirect targets (/dev/null, /dev/stdout, etc.) are
+            // always allowed — see `safe_redirect_target()`.
             if let Some(target) = redirection_target(strip_wrapping_quotes(executable)) {
-                if let Some(blocked) = forbidden_candidate(target) {
-                    return Some(blocked);
+                if !safe_redirect_target(target) {
+                    if let Some(blocked) = forbidden_candidate(target) {
+                        return Some(blocked);
+                    }
                 }
             }
+
+            // Track whether the previous token was a bare redirect operator
+            // (e.g. `>`, `>>`, `<`) so the next token is treated as its target.
+            let mut next_is_redirect_target = false;
 
             for token in words {
                 let candidate = strip_wrapping_quotes(token).trim();
@@ -1295,10 +1303,33 @@ impl SecurityPolicy {
                     continue;
                 }
 
-                if let Some(target) = redirection_target(candidate) {
-                    if let Some(blocked) = forbidden_candidate(target) {
-                        return Some(blocked);
+                // If the previous token was a bare redirect operator, this
+                // token is the redirect target path.
+                if next_is_redirect_target {
+                    next_is_redirect_target = false;
+                    if !safe_redirect_target(candidate) {
+                        if let Some(blocked) = forbidden_candidate(candidate) {
+                            return Some(blocked);
+                        }
                     }
+                    continue;
+                }
+
+                match parse_redirection(candidate) {
+                    RedirectionParse::Target(target) => {
+                        if !safe_redirect_target(target) {
+                            if let Some(blocked) = forbidden_candidate(target) {
+                                return Some(blocked);
+                            }
+                        }
+                        continue;
+                    }
+                    RedirectionParse::NeedsNextToken => {
+                        next_is_redirect_target = true;
+                        continue;
+                    }
+                    RedirectionParse::FdOnly => continue,
+                    RedirectionParse::None => {}
                 }
 
                 // Handle option assignment forms like `--file=/etc/passwd`.
@@ -2679,6 +2710,44 @@ mod tests {
         );
         assert_eq!(
             p.forbidden_path_argument("cat</etc/passwd"),
+            Some("/etc/passwd".into())
+        );
+    }
+
+    #[test]
+    fn forbidden_path_argument_allows_safe_redirect_targets() {
+        let p = default_policy();
+        // stderr suppression — the most common pattern reported in #5518
+        assert_eq!(p.forbidden_path_argument("ls ./dir 2>/dev/null"), None);
+        // stdout redirect to /dev/null
+        assert_eq!(p.forbidden_path_argument("echo hello >/dev/null"), None);
+        // space-separated redirect
+        assert_eq!(
+            p.forbidden_path_argument("some_cmd > /dev/null 2>&1"),
+            None
+        );
+        // /dev/stdout and /dev/stderr
+        assert_eq!(
+            p.forbidden_path_argument("echo msg >/dev/stdout"),
+            None
+        );
+        assert_eq!(
+            p.forbidden_path_argument("echo err >/dev/stderr"),
+            None
+        );
+        // /dev/zero as input
+        assert_eq!(
+            p.forbidden_path_argument("dd if=/dev/zero of=./out bs=1 count=1"),
+            None
+        );
+        // Unsafe /dev paths should still be blocked
+        assert_eq!(
+            p.forbidden_path_argument("cat </dev/sda"),
+            Some("/dev/sda".into())
+        );
+        // Unsafe redirect targets should still be blocked
+        assert_eq!(
+            p.forbidden_path_argument("echo pwned >/etc/passwd"),
             Some("/etc/passwd".into())
         );
     }
